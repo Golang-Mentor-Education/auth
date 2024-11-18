@@ -1,0 +1,17 @@
+//protoc  --go_out=./pkg --go-grpc_out=./pkg api/auth.proto
+syntax = "proto3";
+
+option go_package = "./auth";
+
+service AuthService {
+  rpc Login(LoginIn) returns (LoginOut) {};
+}
+
+message LoginIn {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginOut {
+  string token = 1;
+}
