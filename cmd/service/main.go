@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Golang-Mentor-Education/auth/internal/repository"
 	"github.com/Golang-Mentor-Education/auth/internal/rpc"
 	"github.com/Golang-Mentor-Education/auth/pkg/auth"
 	"google.golang.org/grpc"
@@ -9,7 +10,9 @@ import (
 )
 
 func main() {
-	srv := rpc.NewService()
+	repo := repository.NewRepository()
+
+	srv := rpc.NewService(repo)
 
 	s := grpc.NewServer()
 

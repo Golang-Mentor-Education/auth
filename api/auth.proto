@@ -5,6 +5,7 @@ option go_package = "./auth";
 
 service AuthService {
   rpc Login(LoginIn) returns (LoginOut) {};
+  rpc Signup(SignupIn) returns (SignupOut) {};
 }
 
 message LoginIn {
@@ -14,4 +15,14 @@ message LoginIn {
 
 message LoginOut {
   string token = 1;
+}
+
+message SignupIn {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message SignupOut {
+  bool success = 1;
 }
