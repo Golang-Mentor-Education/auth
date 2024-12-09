@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS participant;
 CREATE TABLE IF NOT EXISTS participant (
     id SERIAL PRIMARY KEY,
     nickname VARCHAR(100) NOT NULL UNIQUE,
@@ -6,4 +7,3 @@ CREATE TABLE IF NOT EXISTS participant (
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-DROP TABLE IF EXISTS participant;
