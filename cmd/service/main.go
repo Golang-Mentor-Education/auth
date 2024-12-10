@@ -22,6 +22,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
+	log.Println("Auth running on :8080")
 
 	s.Serve(lis)
 }
