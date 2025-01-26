@@ -6,12 +6,13 @@ linters:
     - staticcheck
     - ineffassign
     - errcheck
-
     - gosimple
     - typecheck
     - unused
     - makezero
     - whitespace
+    - revive
+    - gosec
 
 run:
   timeout: 5m

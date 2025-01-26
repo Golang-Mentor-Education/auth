@@ -2,14 +2,15 @@ package rpc
 
 import (
 	"context"
+	"log"
+	"time"
+
 	"github.com/Golang-Mentor-Education/auth/internal/config"
 	"github.com/Golang-Mentor-Education/auth/pkg/auth"
 	"github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"log"
-	"time"
 )
 
 type Service struct {
@@ -96,5 +97,4 @@ func (s *Service) Signup(ctx context.Context, in *auth.SignupIn) (*auth.SignupOu
 	return &auth.SignupOut{
 		Success: true,
 	}, nil
-
 }

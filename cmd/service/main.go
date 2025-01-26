@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net"
+
 	"github.com/Golang-Mentor-Education/auth/internal/config"
 	"github.com/Golang-Mentor-Education/auth/internal/repository"
 	"github.com/Golang-Mentor-Education/auth/internal/rpc"
 	"github.com/Golang-Mentor-Education/auth/pkg/auth"
 	"google.golang.org/grpc"
-	"log"
-	"net"
 )
 
 func main() {
@@ -26,7 +27,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	log.Println(fmt.Sprintf("Auth running on :%s", cfg.Service.Port))
+	log.Printf("Auth running on :%s", cfg.Service.Port)
 
-	s.Serve(lis)
+	if err := s.Serve(lis); err != nil {
+		log.Fatalf("Failed to serve: %v", err)
+	}
 }

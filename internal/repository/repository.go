@@ -3,13 +3,13 @@ package repository
 import (
 	"context"
 	"fmt"
+	"log"
+
 	"github.com/Golang-Mentor-Education/auth/internal/config"
 	"github.com/Golang-Mentor-Education/auth/internal/rpc"
 	sq "github.com/Masterminds/squirrel"
-	"log"
 
 	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq"
 )
 
 type Repository struct {
