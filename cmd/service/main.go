@@ -1,28 +1,35 @@
 package main
 
 import (
+	"fmt"
+	"log"
+	"net"
+
+	"github.com/Golang-Mentor-Education/auth/internal/config"
 	"github.com/Golang-Mentor-Education/auth/internal/repository"
 	"github.com/Golang-Mentor-Education/auth/internal/rpc"
 	"github.com/Golang-Mentor-Education/auth/pkg/auth"
 	"google.golang.org/grpc"
-	"log"
-	"net"
 )
 
 func main() {
-	repo := repository.NewRepository()
+	cfg := config.NewConfig()
 
-	srv := rpc.NewService(repo)
+	repo := repository.NewRepository(cfg)
+
+	srv := rpc.NewService(cfg, repo)
 
 	s := grpc.NewServer()
 
 	auth.RegisterAuthServiceServer(s, srv)
 
-	lis, err := net.Listen("tcp", ":8080")
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", cfg.Service.Port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	log.Println("Auth running on :8080")
+	log.Printf("Auth running on :%s", cfg.Service.Port)
 
-	s.Serve(lis)
+	if err := s.Serve(lis); err != nil {
+		log.Fatalf("Failed to serve: %v", err)
+	}
 }

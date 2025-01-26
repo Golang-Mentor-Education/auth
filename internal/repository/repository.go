@@ -3,28 +3,21 @@ package repository
 import (
 	"context"
 	"fmt"
-	"github.com/Golang-Mentor-Education/auth/internal/rpc"
-	sq "github.com/Masterminds/squirrel"
 	"log"
 
-	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq"
-)
+	"github.com/Golang-Mentor-Education/auth/internal/config"
+	"github.com/Golang-Mentor-Education/auth/internal/rpc"
+	sq "github.com/Masterminds/squirrel"
 
-const (
-	postgresPort     = "3011"
-	postgresUser     = "master"
-	postgresPassword = "master"
-	postgresDb       = "master"
-	postgresHost     = "localhost"
+	"github.com/jmoiron/sqlx"
 )
 
 type Repository struct {
 	conn *sqlx.DB
 }
 
-func NewRepository() *Repository {
-	connStr := fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s sslmode=disable", postgresUser, postgresPassword, postgresDb, postgresHost, postgresPort)
+func NewRepository(cfg *config.Config) *Repository {
+	connStr := fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s sslmode=disable", cfg.Postgres.Username, cfg.Postgres.Password, cfg.Postgres.Database, cfg.Postgres.Host, cfg.Postgres.Port)
 	conn, err := sqlx.Connect("postgres", connStr)
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)

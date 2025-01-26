@@ -2,25 +2,27 @@ package rpc
 
 import (
 	"context"
+	"log"
+	"time"
+
+	"github.com/Golang-Mentor-Education/auth/internal/config"
 	"github.com/Golang-Mentor-Education/auth/pkg/auth"
 	"github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"log"
-	"time"
 )
-
-var jwtSecret = []byte("supersecretkey")
 
 type Service struct {
 	auth.UnimplementedAuthServiceServer
-	dbRepo DbRepo
+	dbRepo    DbRepo
+	jwtSecret []byte
 }
 
-func NewService(dbR DbRepo) *Service {
+func NewService(cfg *config.Config, dbR DbRepo) *Service {
 	return &Service{
-		dbRepo: dbR,
+		dbRepo:    dbR,
+		jwtSecret: []byte(cfg.Platform.Token),
 	}
 }
 
@@ -71,7 +73,7 @@ func (s *Service) generateJWT(userID int64) (string, error) {
 		"exp":     time.Now().Add(time.Hour * 24).Unix(), // токен на 24 часа
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(jwtSecret)
+	return token.SignedString(s.jwtSecret)
 }
 
 func (s *Service) Signup(ctx context.Context, in *auth.SignupIn) (*auth.SignupOut, error) {
@@ -95,5 +97,4 @@ func (s *Service) Signup(ctx context.Context, in *auth.SignupIn) (*auth.SignupOu
 	return &auth.SignupOut{
 		Success: true,
 	}, nil
-
 }
