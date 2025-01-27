@@ -1,0 +1,46 @@
+name: CI work
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run tests and linting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.22
+
+      - name: Install golangci-lint
+        run: |
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+
+      - name: Run golangci-lint
+        run: |
+          golangci-lint run
+
+      - name: Run tests
+        run: go test ./...
+
+      #      - name: Check coverage
+      #        run: |
+      #          go tool cover -func=coverage.out -o=coverage.txt
+      #          coverage=$(go tool cover -func=coverage.out | grep total | awk '{print substr($3, 1, length($3)-1)}')
+      #          echo "Coverage is $coverage%"
+      #          if (( $(echo "$coverage < 80.0" | bc -l) )); then
+      #          echo "Coverage is below 80%"
+      #          exit 1
+      #          fi
+
+#      - name: Upload coverage report
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: coverage-report
+#          path: coverage.txt
