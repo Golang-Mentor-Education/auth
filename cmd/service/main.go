@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/Golang-Mentor-Education/auth/internal/config"
 	"log"
 	"net"
 
+	"github.com/Golang-Mentor-Education/auth/internal/config"
 	"github.com/Golang-Mentor-Education/auth/internal/repository"
 	"github.com/Golang-Mentor-Education/auth/internal/rpc"
 	"github.com/Golang-Mentor-Education/auth/pkg/auth"
