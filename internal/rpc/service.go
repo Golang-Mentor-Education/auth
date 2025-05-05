@@ -8,6 +8,7 @@ import (
 	"github.com/Golang-Mentor-Education/auth/internal/config"
 	"github.com/Golang-Mentor-Education/auth/pkg/auth"
 	"github.com/golang-jwt/jwt/v4"
+	_ "github.com/lib/pq"
 	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

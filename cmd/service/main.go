@@ -1,7 +1,9 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"github.com/Golang-Mentor-Education/auth/internal/databus/producer"
 	"log"
 	"net"
 
@@ -16,6 +18,12 @@ func main() {
 	cfg := config.NewConfig()
 
 	repo := repository.NewRepository(cfg)
+	kfk := producer.New()
+
+	err := kfk.SendMessage(context.Background(), []byte("hello w"), []byte("qwerty"))
+	if err != nil {
+		log.Println(err)
+	}
 
 	srv := rpc.NewService(cfg, repo)
 
